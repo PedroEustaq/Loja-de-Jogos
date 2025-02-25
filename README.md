@@ -1,1 +1,1 @@
-📰 o banco MySQL está presente em jog
+📰 o banco MySQL está presente em sitejogos.sql
