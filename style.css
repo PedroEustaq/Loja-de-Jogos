@@ -4,7 +4,12 @@ body {
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
 }
+
 #formLogin {
     width: 100%;
 }
@@ -313,3 +318,16 @@ footer {
   ::-webkit-scrollbar-thumb:hover {
     background: #0056b3;
   }
+
+
+.Jogo {
+    background-color: #f03030f6;
+    width: 20%;
+    display: flex;
+    
+}
+
+.Jogo > img {
+    width: 50%;
+    border-radius: 10px;
+}

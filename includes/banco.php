@@ -1,27 +1,44 @@
 <pre>
 <?php 
 
-$banco = new mysqli("localhost", "root", "","sitejogos");
-if ($banco->connect_errno) {
-    echo "<p> Encontrei um erro $banco->errno</p>";
-    die();
+
+$host = "db.jbyaibzsiccvlwlpdtsa.supabase.co";
+$port = "5432";
+$dbname = "postgres";
+$user = "postgres";
+$password = "8Ozg1O05KHrnht92";
+
+$conn = pg_connect("
+    host=$host
+    port=$port
+    dbname=$dbname
+    user=$user
+    password=$password
+");
+
+if (!$conn) {
+    die("Erro na conexão.");
 }
-$busca = $banco->query("select * from generos");
+
+$busca = pg_query($conn, "SELECT * FROM generos");
+
 if (!$busca) {
     echo "Falha na busca";
 } else {
-    while ($reg = $busca->fetch_object()) {
 
     
+
 }
-}
-function thumb($arq) {
-    $caminho  = "fotos/$arq";
+
+function thumb($arq)
+{
+    $caminho = "fotos/$arq";
+
     if (is_null($arq) || !file_exists($caminho)) {
         return "fotos/indisponivel.png";
-    } else {
-        return $caminho;
     }
+
+    return $caminho;
 }
 ?>
 </pre>

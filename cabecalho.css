@@ -1,0 +1,25 @@
+.topo {
+    background-color: #d0a2a2f6;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navegante {
+    background-color: #ffa1a100;
+    display: flex;
+    flex-flow: row nowrap;
+
+}
+.navegante > a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: all 0.2s;
+}
+
+.conteinerAnuncio {
+    height: 500px;
+    background-color: rgb(255, 161, 39);
+    width: 100%;
+}

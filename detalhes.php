@@ -20,14 +20,14 @@
         <?php 
             require_once "topo.php";
         $cod = $_GET['cod'] ?? 0;
-        $busca = $banco->query("select * from jogos where cod =$cod");
+        $busca = pg_query($conn,"select * from jogos where cod =$cod");
 
         ?>
         <h1>Detalhes do Jogo</h1>
         <table class="detalhes">
             <?php 
             
-            while ($reg = $busca->fetch_object()) {
+            while ($reg = pg_fetch_object($busca)) {
                 echo "<tr><td rowspan='3'><img src=". thumb($reg->capa)." class='full'></td>
             <td id='centralizar'><h2>$reg->nome</h2></td>
             <h3>Nota: $reg->nota</h3>
@@ -45,5 +45,5 @@
 </body>
 <?php 
     require_once 'rodape.php';
-$banco->close();?>
+?>
 </html>
