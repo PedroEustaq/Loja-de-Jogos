@@ -2,10 +2,10 @@
 <?php 
 
 
-$host = "db.jbyaibzsiccvlwlpdtsa.supabase.co";
+$host = "aws-0-sa-east-1.pooler.supabase.com";
 $port = "5432";
 $dbname = "postgres";
-$user = "postgres";
+$user = "postgres.jbyaibzsiccvlwlpdtsa";
 $password = "8Ozg1O05KHrnht92";
 
 $conn = pg_connect("
