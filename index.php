@@ -1,3 +1,5 @@
+<?php require_once "includes/banco.php";
+    require_once "includes/login.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,8 +16,7 @@
 </head>
 
 <body>
-    <?php require_once "includes/banco.php";
-    require_once "includes/login.php"; ?>
+    
 
     <header class="topo">
         <div class="logo">
