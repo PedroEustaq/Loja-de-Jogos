@@ -43,3 +43,23 @@ indicadores.forEach((item,indice)=>{
     });
 
 });
+
+const perguntas = document.querySelectorAll(".faq-item");
+
+perguntas.forEach((item) => {
+
+    const botao = item.querySelector(".faq-pergunta");
+
+    botao.addEventListener("click", () => {
+
+        perguntas.forEach((faq) => {
+            if (faq !== item) {
+                faq.classList.remove("ativo");
+            }
+        });
+
+        item.classList.toggle("ativo");
+
+    });
+
+});
