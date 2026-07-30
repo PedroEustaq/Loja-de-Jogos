@@ -3,11 +3,11 @@
 ========================= */
 
 .Market{
-    width:min(92%, 1280px);
+    width:min(92%,1400px);
     margin:70px auto;
     display:grid;
-    grid-template-columns:300px minmax(0, 1fr);
-    gap:28px;
+    grid-template-columns:280px 1fr;
+    gap:32px;
     align-items:start;
 }
 
@@ -16,75 +16,57 @@
 ========================= */
 
 .Market .filtros{
+    position:sticky;
+    top:25px;
     background:#fff;
     border:1px solid #ececec;
-    border-radius:28px;
-    padding:26px;
-    position:sticky;
-    top:24px;
+    border-radius:24px;
+    padding:24px;
 }
 
 .Market .filtros h2{
     font-size:28px;
     font-weight:800;
     margin-bottom:18px;
-    color:#111;
 }
 
 .Market .filtros h3{
+    margin:24px 0 12px;
     font-size:15px;
-    font-weight:700;
-    color:#555;
-    margin:26px 0 12px;
+    color:#666;
 }
 
 .Market .campoBusca{
-    width:100%;
-    height:48px;
-    border:1px solid #e2e2e2;
-    border-radius:999px;
     display:flex;
     align-items:center;
     gap:10px;
+    height:48px;
+    border-radius:999px;
+    border:1px solid #ddd;
     padding:0 16px;
     background:#fafafa;
-    transition:.25s;
-}
-
-.Market .campoBusca:focus-within{
-    border-color:#e60012;
-    box-shadow:0 0 0 4px rgba(230,0,18,.08);
-    background:#fff;
-}
-
-.Market .campoBusca img{
-    width:18px;
-    height:18px;
-    opacity:.65;
-    flex:0 0 auto;
 }
 
 .Market .campoBusca input{
     width:100%;
     border:none;
     outline:none;
-    background:transparent;
-    font-size:15px;
+    background:none;
+}
+
+.Market .campoBusca img{
+    width:18px;
 }
 
 .Market .filtros label{
     display:flex;
     align-items:center;
     gap:10px;
-    font-size:15px;
-    color:#333;
     margin:12px 0;
     cursor:pointer;
 }
 
-.Market .filtros input[type="checkbox"]{
-    width:18px;
-    height:18px;
+.Market input[type="checkbox"]{
     accent-color:#e60012;
 }
 
@@ -94,10 +76,9 @@
 
 .Market .catalogo{
     display:grid;
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-    gap:22px;
-    grid-auto-flow:dense;
-    align-items:start;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:24px;
+    grid-auto-flow:row dense;
 }
 
 /* =========================
@@ -106,84 +87,110 @@
 
 .Market .card{
     background:#fff;
-    border:1px solid #ececec;
-    border-radius:24px;
+    border-radius:20px;
     overflow:hidden;
-    box-shadow:0 8px 24px rgba(0,0,0,.06);
+    border:1px solid #ececec;
+    transition:.25s;
+    box-shadow:0 6px 20px rgba(0,0,0,.05);
     display:flex;
     flex-direction:column;
-    min-width:0;
-    transition:.25s ease;
-    cursor:pointer;
+    height: 100%;
 }
 
 .Market .card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 18px 36px rgba(0,0,0,.10);
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
 }
+
+/* =========================
+   IMAGEM
+========================= */
 
 .Market .card img{
     width:100%;
-    height:220px;
+    aspect-ratio:3/4;
     object-fit:cover;
     display:block;
-    background:#f4f4f4;
-    border-radius: 10px;
 }
 
+/* =========================
+   INFO
+========================= */
+
 .Market .card-info{
-    padding:14px 16px 16px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    min-width:0;
+    padding:18px;
+    display: flex;
+    flex-flow: column nowrap;
+justify-content: space-between;
+height: 100%;
+
 }
 
 .Market .card-topo{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
-    gap:12px;
+    gap:10px;
+    margin-bottom:10px;
 }
 
 .Market .card h3{
-    font-size:17px;
-    font-weight:800;
+    font-size:clamp(.92rem,1vw,.98rem);
+    font-weight:700;
     color:#111;
-    line-height:1.2;
+    line-height:1.35;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    word-break:break-word;
 }
 
 .Market .card span{
-    font-size:14px;
-    font-weight:800;
-    color:#f5a700;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    color:#f7b500;
+    font-weight:700;
     white-space:nowrap;
-    flex:0 0 auto;
+}
+
+.Market .card span img{
+    width:15px;
+    height:15px;
 }
 
 .Market .card p{
+    color:#666;
     font-size:14px;
-    color:#6f6f6f;
 }
 
 /* =========================
-   VARIAÇÃO DE DESTAQUE
+   WIDE
 ========================= */
 
 .Market .card--wide{
-    grid-column: 1 / 3
+    grid-column:span 2;
 }
 
 .Market .card--wide img{
-    height:240px;
-    border-radius: 10px;
+    aspect-ratio:16/9;
+}
+
+.Market .card--wide .card-info{
+    padding:22px;
+}
+
+.Market .card--wide h3{
+    font-size:clamp(1.1rem,1.6vw,1.45rem);
 }
 
 /* =========================
    RESPONSIVO
 ========================= */
 
-@media (max-width: 1080px){
+@media(max-width:1200px){
+
     .Market{
         grid-template-columns:1fr;
     }
@@ -192,35 +199,17 @@
         position:static;
     }
 
-    .Market .catalogo{
-        grid-template-columns:repeat(3, minmax(0, 1fr));
-    }
-
-    .Market .card--wide{
-        grid-column:span 2;
-    }
 }
 
-@media (max-width: 760px){
-    .Market{
-        width:94%;
-        margin:40px auto;
-    }
+@media(max-width:900px){
 
     .Market .catalogo{
-        grid-template-columns:repeat(2, minmax(0, 1fr));
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .Market .card--wide{
-        grid-column:span 2;
-    }
 }
 
-@media (max-width: 560px){
-    .Market .filtros{
-        padding:20px;
-        border-radius:22px;
-    }
+@media(max-width:600px){
 
     .Market .catalogo{
         grid-template-columns:1fr;
@@ -230,11 +219,18 @@
         grid-column:span 1;
     }
 
-    .Market .card{
-        min-height:auto;
+    .Market .card img,
+    .Market .card--wide img{
+        aspect-ratio:16/10;
     }
 
-    .Market .card img{
-        height:200px;
-    }
+}
+.Market .card-link{
+    display:block;
+    text-decoration:none;
+    color:inherit;
+}
+
+.Market .card-link:has(.card--wide){
+    grid-column:span 2;
 }

@@ -31,6 +31,7 @@ $descricao = $jogo['descricao'];
 $nota = $jogo['nota'];
 $plataforma = $jogo['plataforma'];
 $produtora = $jogo['produtora'];
+$genero = $jogo['genero'];
 
 
 
@@ -46,6 +47,33 @@ $tabela_produtora = pg_fetch_assoc($resultaprodutora);
 
 $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
 
+
+##################
+$sqlPlataforma = "SELECT * FROM plataforma WHERE id = $1";
+
+$resultaplataforma = pg_query_params($conn, $sqlPlataforma, [$plataforma]);
+
+if (!$resultaplataforma) {
+    die(pg_last_error($conn));
+}
+
+$tabela_plataforma = pg_fetch_assoc($resultaplataforma);
+
+$nome_plataforma = $tabela_plataforma['plataforma'] ?? "Desconhecida";
+
+
+##################
+$sqlGenero = "SELECT * FROM generos WHERE cod = $1";
+
+$resultagenero = pg_query_params($conn, $sqlGenero, [$genero]);
+
+if (!$resultagenero) {
+    die(pg_last_error($conn));
+}
+
+$tabela_genero = pg_fetch_assoc($resultagenero);
+
+$nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
 ?>
 
 <!DOCTYPE html>
@@ -58,14 +86,42 @@ $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="sobre.css">
+    <link rel="stylesheet" href="cabecalho.css">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
     </style>
 </head>
 
-<body class="pagina-produto" style="--fundo: url('imgJogos/<?= $nome ?>/background.png');">
+<body class="pagina-produto" style="--fundo: url('imgJogos/<?= $nome ?>/background.avif');">
 
+
+
+    <header class="cabecalho">
+
+        <div class="menu-esquerda">
+
+            <div class="logo">
+                <img src="imgDeco/PERDENDOLogo.png" alt="">
+            </div>
+
+            <a href="#"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
+            <a href="#"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
+        </div>
+
+        <div class="Direito">
+            <div class="pesquisa">
+                <img src="svg/LoopaCinza.svg" alt="">
+                <input type="text" placeholder="Pesquisar">
+            </div>
+
+            <div class="login">
+                <img src="svg/ContaIcone.svg" alt="User Icon">
+                <a href="#">Crie sua conta</a>
+                <a href="#">Iniciar Sessão</a>
+            </div>
+        </div>
+    </header>
     <main class="produto-page">
 
         <section class="produto-card">
@@ -78,7 +134,7 @@ $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
 
                 <div class="produto-imagem-principal">
                     <img
-                        src="../imgJogos/<?= $nome ?>/banner1.png"
+                        src="imgJogos/<?= $nome ?>/banner1.avif"
                         alt="<?= $nome ?>"
                         id="imagemPrincipal">
                 </div>
@@ -128,7 +184,7 @@ $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
 
             <aside class="produto-direita">
 
-                <span class="tag-destaque">Jogo digital</span>
+               
 
                 <h1><?= $nome ?></h1>
 
@@ -138,7 +194,7 @@ $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
                     </h2>
 
                     <div class="nota-produto">
-                        <img src="../svg/starYellow.svg" alt="">
+                        <img src="./svg/starYellow.svg" alt="">
                         <span>9.0</span>
                     </div>
                 </div>
@@ -156,13 +212,13 @@ $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
 
                 <div class="produto-dados">
                     <div>
-                        <span>Categoria</span>
-                        <strong>Jogo</strong>
+                        <span>Gênero</span>
+                        <strong><?= $nome_genero ?></strong>
                     </div>
 
                     <div>
                         <span>Plataforma</span>
-                        <strong>Nintendo</strong>
+                        <strong><?= $nome_plataforma ?></strong>
                     </div>
 
                     <div>
@@ -170,10 +226,7 @@ $nome_produtora = $tabela_produtora['produtora'] ?? "Desconhecida";
                         <strong><?= $nome_produtora ?></strong>
                     </div>
 
-                    <div>
-                        <span>Formato</span>
-                        <strong>Digital</strong>
-                    </div>
+                   
                 </div>
 
             </aside>

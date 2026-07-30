@@ -1,5 +1,5 @@
 <?php require_once "includes/banco.php";
-    require_once "includes/login.php"; ?>
+require_once "includes/login.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    
+
 
     <header class="cabecalho">
 
@@ -232,7 +232,7 @@
         </div>
 
     </section>
-  <main class="Market">
+    <main class="Market">
 
         <aside class="filtros">
 
@@ -259,9 +259,9 @@
 
         <section class="catalogo">
 
-<?php
+            <?php
 
-$sql = "
+            $sql = "
 SELECT
     j.cod,
     j.nome,
@@ -274,92 +274,94 @@ JOIN produtoras p ON p.cod = j.produtora
 ORDER BY j.nome
 ";
 
-$busca = pg_query($conn, $sql);
+            $busca = pg_query($conn, $sql);
 
-$wide = true;
+            // Contador dos cards exibidos
+            $contador = 0;
 
+            function localizarImagem($pasta, $nomeArquivo)
+            {
+                $extensoes = [
+                    "png",
+                    "jpg",
+                    "jpeg",
+                    "webp",
+                    "avif",
+                    "gif"
+                ];
 
-function localizarImagem($pasta, $nomeArquivo)
-{
-    $extensoes = [
-        "png",
-        "jpg",
-        "jpeg",
-        "webp",
-        "avif",
-        "gif"
-    ];
+                foreach ($extensoes as $ext) {
 
-    foreach ($extensoes as $ext) {
+                    $arquivo = "$pasta/$nomeArquivo.$ext";
 
-        $arquivo = "$pasta/$nomeArquivo.$ext";
+                    if (file_exists($arquivo)) {
+                        return $arquivo;
+                    }
+                }
 
-        if (file_exists($arquivo)) {
-            return $arquivo;
-        }
-    }
+                return null;
+            }
 
-    return null;
-}
+            while ($jogo = pg_fetch_assoc($busca)) {
 
+                // Wide, Normal, Normal, Wide, Normal, Normal...
+                $wide = ($contador % 5 == 0);
 
-while ($jogo = pg_fetch_assoc($busca)) {
+                $pasta = "imgJogos/" . $jogo['nome'];
 
-    $pasta = "imgJogos/" . $jogo['nome'];
+                $imagem = $wide
+                    ? localizarImagem($pasta, "banner1")
+                    : localizarImagem($pasta, "capa");
 
-    $imagem = $wide
-        ? localizarImagem($pasta, "banner1")
-        : localizarImagem($pasta, "capa");
+                // Se não existir nenhuma imagem, não mostra este jogo
+                if ($imagem === null) {
+                    continue;
+                }
 
-    // Se não existir nenhuma imagem, não mostra este jogo
-    if ($imagem === null) {
-        continue;
-    }
+            ?>
 
-    // resto do card...
+                <a href="detalhes.php?id=<?= $jogo['cod'] ?>" class="card-link">
 
+                    <article class="card <?= $wide ? 'card--wide' : '' ?>">
 
+                        <img
+                            src="<?= $imagem ?>"
+                            alt="<?= htmlspecialchars($jogo['nome']) ?>"
+                            loading="lazy">
 
-?>
+                        <div class="card-info">
 
-    <article class="card <?= $wide ? 'card--wide' : '' ?>">
+                            <div class="card-topo">
+                                <h3><?= htmlspecialchars($jogo['nome']) ?></h3>
+                                <span><img src="./svg/starYellow.svg" alt=""> <?= number_format($jogo['nota'], 1) ?></span>
+                            </div>
 
-        <img
-            src="<?= $imagem ?>"
-            alt="<?= htmlspecialchars($jogo['nome']) ?>"
-            loading="lazy">
+                            <p>
+                                <?= htmlspecialchars($jogo['produtora']) ?>
+                                •
+                                <?= htmlspecialchars($jogo['genero']) ?>
+                            </p>
 
-        <div class="card-info">
+                        </div>
 
-            <div class="card-topo">
-                <h3><?= htmlspecialchars($jogo['nome']) ?></h3>
-                <span>⭐ <?= number_format($jogo['nota'],1) ?></span>
-            </div>
+                    </article>
 
-            <p>
-                <?= htmlspecialchars($jogo['produtora']) ?>
-                •
-                <?= htmlspecialchars($jogo['genero']) ?>
-            </p>
+                </a>
 
-        </div>
+            <?php
 
-    </article>
+                // alterna entre banner1 e capa
+                // alterna entre banner1 e capa
+                $contador++;
+            }
 
-<?php
+            ?>
 
-    // alterna entre banner1 e capa
-    $wide = !$wide;
-
-}
-
-?>
-
-</section>
+        </section>
 
     </main>
 
-    
+
 </body>
 <?php require_once 'rodape.php';
 
@@ -367,4 +369,5 @@ while ($jogo = pg_fetch_assoc($busca)) {
 
 ?>
 <script src="script.js"></script>
+
 </html>

@@ -8,7 +8,6 @@
 
 body.pagina-produto{
     margin:0;
-    min-height:100vh;
     font-family:Inter, Arial, Helvetica, sans-serif;
     color:#111;
 }
@@ -21,8 +20,8 @@ body.pagina-produto{
 }
 
 .produto-card{
-    background:rgba(255,255,255,.92);
-    backdrop-filter:blur(8px);
+    background:rgb(255, 255, 255);
+    backdrop-filter:blur(30px);
     border:1px solid #e7ecf1;
     border-radius:30px;
     box-shadow:0 18px 50px rgba(0,0,0,.08);
@@ -96,6 +95,7 @@ body.pagina-produto{
     display:grid;
     grid-template-columns:repeat(5, minmax(0, 1fr));
     gap:10px;
+    justify-items: center;
 }
 
 .miniatura{
@@ -103,8 +103,10 @@ body.pagina-produto{
     border:1px solid #d9dfe5;
     background:#fff;
     overflow:hidden;
-    border-radius:16px;
+    border-radius:10px;
     cursor:pointer;
+    height: 70px;
+    width: 100%;
     box-shadow:0 6px 14px rgba(0,0,0,.04);
     transition:.2s ease;
 }
@@ -131,6 +133,7 @@ body.pagina-produto{
     min-width:0;
     padding-left:24px;
     border-left:1px solid #e1e6eb;
+    background: #ffffff86;
 }
 
 .tag-destaque{
@@ -154,6 +157,7 @@ body.pagina-produto{
     font-weight:900;
     letter-spacing:-.04em;
     color:#111;
+    text-shadow: #111;
 }
 
 .linha-preco{
@@ -191,13 +195,13 @@ body.pagina-produto{
     max-width:38ch;
     font-size:16px;
     line-height:1.7;
-    color:#404550;
+    color:#000;
 }
 
 .produto-acoes{
     margin-top:28px;
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
     gap:12px;
 }
 

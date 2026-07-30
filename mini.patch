@@ -1,0 +1,17 @@
+diff --git a/index.php b/index.php
+--- a/index.php
++++ b/index.php
+@@ -1,7 +1,7 @@
+-                <article class="card <?= $wide ? 'card--wide' : '' ?>">
++                <a href="detalhes.php?id=<?= $jogo['cod'] ?>" class="card-link">
++
++                <article class="card <?= $wide ? 'card--wide' : '' ?>">
+
+                     <img
+                         src="<?= $imagem ?>"
+@@ -19,6 +19,8 @@
+                     </div>
+
+                 </article>
++
++                </a>
