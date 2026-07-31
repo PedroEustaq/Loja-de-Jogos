@@ -48,26 +48,72 @@ require_once "includes/login.php"; ?>
         </div>
     </header>
 
+
+    <?php
+
+    $quantidadeBanner = rand(3, 6);
+
+    $sqlBanner = "
+SELECT
+    j.cod,
+    j.nome,
+    j.nota,
+    g.genero,
+    p.produtora
+FROM jogos j
+JOIN generos g ON g.cod = j.genero
+JOIN produtoras p ON p.cod = j.produtora
+ORDER BY RANDOM()
+LIMIT $quantidadeBanner
+";
+
+    $buscaBanner = pg_query($conn, $sqlBanner);
+
+    $banners = [];
+
+    while ($jogo = pg_fetch_assoc($buscaBanner)) {
+
+        $pasta = "imgJogos/" . $jogo['nome'];
+
+        $imagem = localizarImagem($pasta, "bannerE");
+
+        if ($imagem) {
+
+            $jogo["imagem"] = $imagem;
+
+            $banners[] = $jogo;
+        }
+    }
+
+    ?>
     <section class="banner">
 
         <div class="slides">
-            <img src="imgDeco/underbanner.png" alt="">
-            <img src="imgDeco/Pikomon.jpg" alt="">
-            <img src="imgDeco/supersmash.avif" alt="">
+
+            <?php foreach ($banners as $banner) { ?>
+
+                <img
+                    src="<?= $banner["imagem"] ?>"
+                    alt="<?= htmlspecialchars($banner["nome"]) ?>">
+
+            <?php } ?>
+
         </div>
 
         <div class="indicadores">
-            <div class="indicador ativo">
-                <span>Mario Odyssey</span>
-            </div>
 
-            <div class="indicador">
-                <span>Pikomon</span>
-            </div>
+            <?php foreach ($banners as $i => $banner) { ?>
 
-            <div class="indicador">
-                <span>Super Smash</span>
-            </div>
+                <div class="indicador <?= $i == 0 ? 'ativo' : '' ?>">
+
+                    <span>
+                        <?= htmlspecialchars(mb_strimwidth($banner['nome'], 0, 20, "...")) ?>
+                    </span>
+
+                </div>
+
+            <?php } ?>
+
         </div>
 
     </section>
@@ -77,115 +123,71 @@ require_once "includes/login.php"; ?>
 
         <div class="linhaJogos">
 
-            <div class="Jogo">
-                <div class="ImagemJogo">
-                    <img src="imgDeco/marioOdissi.png" alt="Mario Odyssey">
-                </div>
+            <?php
 
-                <div class="InfoJogo">
-                    <div class="NomeNota">
-                        <h3 class="NomeJogo">Mario Odyssey</h3>
+            $sql = "
+SELECT
+    j.cod,
+    j.nome,
+    j.nota,
+    g.genero,
+    p.produtora
+FROM jogos j
+JOIN generos g ON g.cod = j.genero
+JOIN produtoras p ON p.cod = j.produtora
+ORDER BY RANDOM()
+LIMIT 5
+";
 
-                        <div class="Nota">
-                            <img src="svg/starYellow.svg" alt="">
-                            <span>9.0</span>
+            $busca = pg_query($conn, $sql);
+
+            while ($jogo = pg_fetch_assoc($busca)) {
+
+                $pasta = "imgJogos/" . $jogo['nome'];
+
+                $imagem = localizarImagem($pasta, "capa");
+
+                if ($imagem == null) {
+                    continue;
+                }
+
+            ?>
+
+                <a href="detalhes.php?id=<?= $jogo['cod'] ?>" class="card-link">
+
+                    <div class="Jogo">
+
+                        <div class="ImagemJogo">
+                            <img src="<?= $imagem ?>" alt="<?= htmlspecialchars($jogo['nome']) ?>">
                         </div>
-                    </div>
 
-                    <div class="DataProd">
-                        <p>2017</p>
-                        <p>Nintendo</p>
-                    </div>
-                </div>
-            </div>
+                        <div class="InfoJogo">
 
-            <div class="Jogo">
-                <div class="ImagemJogo">
-                    <img src="imgDeco/eutruck.png" alt="Euro Truck">
-                </div>
+                            <div class="NomeNota">
 
-                <div class="InfoJogo">
-                    <div class="NomeNota">
-                        <h3 class="NomeJogo">Euro Truck</h3>
+                                <h3 class="NomeJogo">
+                                    <?= htmlspecialchars($jogo['nome']) ?>
+                                </h3>
 
-                        <div class="Nota">
-                            <img src="svg/starYellow.svg" alt="">
-                            <span>9.0</span>
+                                <div class="Nota">
+                                    <img src="svg/starYellow.svg">
+                                    <span><?= number_format($jogo['nota'], 1) ?></span>
+                                </div>
+
+                            </div>
+
+                            <div class="DataProd">
+                                <p><?= htmlspecialchars($jogo['produtora']) ?></p>
+                                <p><?= htmlspecialchars($jogo['genero']) ?></p>
+                            </div>
+
                         </div>
+
                     </div>
 
-                    <div class="DataProd">
-                        <p>2017</p>
-                        <p>Nintendo</p>
-                    </div>
-                </div>
-            </div>
+                </a>
 
-            <div class="Jogo">
-                <div class="ImagemJogo">
-                    <img src="imgDeco/marioOdissi.png" alt="Mario Odyssey">
-                </div>
-
-                <div class="InfoJogo">
-                    <div class="NomeNota">
-                        <h3 class="NomeJogo">Mario Odyssey</h3>
-
-                        <div class="Nota">
-                            <img src="svg/starYellow.svg" alt="">
-                            <span>9.0</span>
-                        </div>
-                    </div>
-
-                    <div class="DataProd">
-                        <p>2017</p>
-                        <p>Nintendo</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="Jogo">
-                <div class="ImagemJogo">
-                    <img src="imgDeco/marioOdissi.png" alt="Mario Odyssey">
-                </div>
-
-                <div class="InfoJogo">
-                    <div class="NomeNota">
-                        <h3 class="NomeJogo">Mario Odyssey</h3>
-
-                        <div class="Nota">
-                            <img src="svg/starYellow.svg" alt="">
-                            <span>9.0</span>
-                        </div>
-                    </div>
-
-                    <div class="DataProd">
-                        <p>2017</p>
-                        <p>Nintendo</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="Jogo">
-                <div class="ImagemJogo">
-                    <img src="imgDeco/marioOdissi.png" alt="Mario Odyssey">
-                </div>
-
-                <div class="InfoJogo">
-                    <div class="NomeNota">
-                        <h3 class="NomeJogo">Mario Odyssey</h3>
-
-                        <div class="Nota">
-                            <img src="svg/starYellow.svg" alt="">
-                            <span>9.0</span>
-                        </div>
-                    </div>
-
-                    <div class="DataProd">
-                        <p>2017</p>
-                        <p>Nintendo</p>
-                    </div>
-                </div>
-            </div>
+            <?php } ?>
 
         </div>
     </div>
@@ -238,28 +240,64 @@ require_once "includes/login.php"; ?>
 
             <h2>Filtros</h2>
 
-            <div class="campoBusca">
-                <img src="svg/LoopaCinza.svg" alt="">
-                <input type="text" placeholder="Pesquisar">
-            </div>
+            <form id="formFiltros" method="GET">
 
-            <h3>Categoria</h3>
+                <div class="campoBusca">
+                    <img src="svg/LoopaCinza.svg">
 
-            <label><input type="checkbox"> Jogos</label>
-            <label><input type="checkbox"> Consoles</label>
-            <label><input type="checkbox"> Gift Cards</label>
+                    <input
+                        id="pesquisa"
+                        type="text"
+                        name="pesquisa"
+                        placeholder="Pesquisar jogo..."
+                        autocomplete="off"
+                        value="<?= htmlspecialchars($_GET['pesquisa'] ?? '') ?>">
+                </div>
 
-            <h3>Plataforma</h3>
+                <h3>Categoria</h3>
 
-            <label><input type="checkbox"> Nintendo</label>
-            <label><input type="checkbox"> Xbox</label>
-            <label><input type="checkbox"> Playstation</label>
+                <label><input type="checkbox"> Jogos</label>
+                <label><input type="checkbox"> Consoles</label>
+                <label><input type="checkbox"> Gift Cards</label>
 
+                <h3>Plataforma</h3>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="1"
+                        <?= in_array("1", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    Nintendo
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="2"
+                        <?= in_array("2", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    PC
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="3"
+                        <?= in_array("3", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    PlayStation
+                </label>
+            </form>
         </aside>
 
         <section class="catalogo">
 
             <?php
+
+            $pesquisa = trim($_GET['pesquisa'] ?? '');
+
+            $plataformas = $_GET['plataforma'] ?? [];
 
             $sql = "
 SELECT
@@ -267,10 +305,38 @@ SELECT
     j.nome,
     j.nota,
     g.genero,
-    p.produtora
+    p.produtora,
+    j.plataforma
 FROM jogos j
 JOIN generos g ON g.cod = j.genero
 JOIN produtoras p ON p.cod = j.produtora
+WHERE 1=1
+";
+
+            if ($pesquisa != "") {
+
+                $pesquisa = pg_escape_string($conn, $pesquisa);
+
+                $sql .= "
+        AND j.nome ILIKE '%$pesquisa%'
+    ";
+            }
+
+            if (!empty($plataformas)) {
+
+                $lista = [];
+
+                foreach ($plataformas as $p) {
+
+                    $lista[] = (int)$p;
+                }
+
+                $sql .= "
+        AND j.plataforma IN(" . implode(",", $lista) . ")
+    ";
+            }
+
+            $sql .= "
 ORDER BY j.nome
 ";
 
@@ -335,13 +401,15 @@ ORDER BY j.nome
                                 <h3><?= htmlspecialchars($jogo['nome']) ?></h3>
                                 <span><img src="./svg/starYellow.svg" alt=""> <?= number_format($jogo['nota'], 1) ?></span>
                             </div>
+                            <div class="DataProd">
+                                <p>
+                                    <?= htmlspecialchars($jogo['produtora']) ?>
 
-                            <p>
-                                <?= htmlspecialchars($jogo['produtora']) ?>
-                                •
-                                <?= htmlspecialchars($jogo['genero']) ?>
-                            </p>
-
+                                </p>
+                                <p>
+                                    <?= htmlspecialchars($jogo['genero']) ?>
+                                </p>
+                            </div>
                         </div>
 
                     </article>
@@ -368,6 +436,57 @@ ORDER BY j.nome
 
 
 ?>
+
+<script>
+    const form = document.getElementById("formFiltros");
+
+    // Quando a página carregar
+    window.addEventListener("load", () => {
+
+        const scroll = sessionStorage.getItem("scroll");
+
+        if (scroll !== null) {
+
+            window.scrollTo({
+                top: Number(scroll),
+                behavior: "instant" // pode trocar por "smooth" se preferir
+            });
+
+            sessionStorage.removeItem("scroll");
+
+        }
+
+    });
+
+    // Função que salva a posição e envia o formulário
+    function enviarFormulario() {
+
+        sessionStorage.setItem("scroll", window.scrollY);
+
+        form.submit();
+
+    }
+
+    // Checkboxes
+    document.querySelectorAll("input[type=checkbox]").forEach(check => {
+
+        check.addEventListener("change", enviarFormulario);
+
+    });
+
+    // Campo de pesquisa
+    document.getElementById("pesquisa").addEventListener("keydown", function(e) {
+
+        if (e.key === "Enter") {
+
+            e.preventDefault();
+
+            enviarFormulario();
+
+        }
+
+    });
+</script>
 <script src="script.js"></script>
 
 </html>

@@ -1,12 +1,13 @@
 .Jogo {
     width: 200px;
-    padding: 5px;
+    padding: 0px;
     background-color: #ffffff;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    height: 100%;
 }
 .Jogo > img {
     width: 100%;
@@ -80,6 +81,7 @@
     width: 100%;
 
 border-radius: 10px;
+height: 230px;
 }
 
 .ImagemJogo img{
@@ -134,7 +136,7 @@ border-radius: 10px;
 
     gap:6px;
 
-    background:#fff4d7;
+
 
     padding:5px 10px;
 
@@ -148,7 +150,7 @@ border-radius: 10px;
 }
 .Nota span{
 
-    color:#b88400;
+    color: rgb(247, 181, 0);
 
     font-weight:bold;
 
