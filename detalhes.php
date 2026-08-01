@@ -82,7 +82,7 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $nome ?> | GameStore</title>
+    <title><?= $nome ?> | Perdendo</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="sobre.css">
@@ -91,6 +91,7 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
     </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body class="pagina-produto" style="--fundo: url('imgJogos/<?= $nome ?>/background.avif');">
@@ -105,8 +106,8 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
                 <img src="imgDeco/PERDENDOLogo.png" alt="">
             </div>
 
-            <a href="#"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
-            <a href="#"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
+            <a href="index.php"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
+            <a href="market.php"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
         </div>
 
         <div class="Direito">
@@ -128,9 +129,19 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
 
             <div class="produto-esquerda">
 
-                <p class="breadcrumb">
-                    Catálogo &gt; Jogos &gt; <?= $nome ?>
-                </p>
+                <nav class="breadcrumb">
+
+    <a href="index.php">Central</a>
+
+    <span class="material-icons">chevron_right</span>
+
+    <a href="market.php">Catálogo</a>
+
+    <span class="material-icons">chevron_right</span>
+
+    <span class="pagina-atual"><?= htmlspecialchars($nome) ?></span>
+
+</nav>
 
                 <div class="produto-imagem-principal">
                     <img

@@ -1,78 +1,35 @@
-<?php 
-session_start();
+<?php
 
 
-if (!isset($_SESSION['user'])) {
-$_SESSION['user']= "";
-$_SESSION['nome']= "";
-$_SESSION['tipo']= "";
-}
+require_once "banco.php";
 
 
+function autenticar($usuario, $senha)
+{
+    global $conn;
 
-function gerarHesh($senha) {
-    $txt = cripto($senha);
-    $hash = password_hash($txt, PASSWORD_DEFAULT);
-    return $hash;
-}
+    $sql = "SELECT usuario, nome, senha, tipo
+            FROM usuario
+            WHERE usuario = $1
+            LIMIT 1";
 
-function testarHesh($senha, $hash) {
+    $resultado = pg_query_params($conn, $sql, [$usuario]);
 
-$ok = password_verify(cripto($senha),$hash);
-return $ok;
-
-}
-
-//echo gerarHesh("admin");
-//echo testarHesh("admin",'$2y$10$thJm6/DG6BpCyJWJPQk1vu59IKlpw4p8CHSMZLMsDo9Vv.hKfWfjq');
-
-
-function cripto($senha) {
-    $c = '';
-    for($pos = 0; $pos < strlen($senha); $pos++) {
-        $letra = ord($senha[$pos]) + 1;
-        $c .= chr($letra);
-    }
-    return $c;
-}
-
-function logout() {
-    unset($_SESSION['user']);
-    unset($_SESSION['nome']);
-    unset($_SESSION['tipo']);
-}
-
-function isLogado()  {
-    if(empty($_SESSION['user'])) {
+    if (!$resultado || pg_num_rows($resultado) == 0) {
         return false;
-    } else {
-        return true;
     }
-}
 
-function isAdmin() {
-    $t = $_SESSION['tipo'] ?? null;
-    if (is_null($t)) {
-        return false;
-    } else {
-        if ($t == 'admin') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
+    $dados = pg_fetch_assoc($resultado);
 
-function isEditor() {
-    $t = $_SESSION['tipo'] ?? null;
-    if (is_null($t)) {
+    if (!password_verify($senha, $dados["senha"])) {
         return false;
-    } else {
-        if ($t == 'editor') {
-            return true;
-        } else {
-            return false;
-        }
     }
+
+    session_regenerate_id(true);
+
+    $_SESSION["usuario"] = $dados["usuario"];
+    $_SESSION["nome"] = $dados["nome"];
+    $_SESSION["tipo"] = $dados["tipo"];
+
+    return true;
 }
-?>

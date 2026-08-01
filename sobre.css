@@ -333,3 +333,33 @@ body.pagina-produto{
     background-position: center;
     background-attachment: fixed;
 }
+
+.breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    margin-bottom:20px;
+
+    font-size:14px;
+}
+
+.breadcrumb a{
+    color:#111;
+    text-decoration:none;
+    transition:.2s;
+}
+
+.breadcrumb a:hover{
+    color:#e60012;
+}
+
+.breadcrumb .material-icons{
+    font-size:18px;
+    color:#8d8d8d;
+}
+
+.breadcrumb .pagina-atual{
+    color:#111;
+    font-weight:600;
+}

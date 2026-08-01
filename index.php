@@ -1,12 +1,14 @@
 <?php require_once "includes/banco.php";
-require_once "includes/login.php"; ?>
+require_once "includes/login.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Jogos</title>
+    <title>Central | Perdendo</title>
+    <link rel="icon" href="./imgDeco/favi.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="banner.css">
@@ -30,8 +32,8 @@ require_once "includes/login.php"; ?>
                 <img src="imgDeco/PERDENDOLogo.png" alt="">
             </div>
 
-            <a href="#"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
-            <a href="#"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
+            <a href="index.php"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
+            <a href="market.php"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
         </div>
 
         <div class="Direito">
@@ -43,7 +45,13 @@ require_once "includes/login.php"; ?>
             <div class="login">
                 <img src="svg/ContaIcone.svg" alt="User Icon">
                 <a href="#">Crie sua conta</a>
-                <a href="#">Iniciar Sessão</a>
+                
+
+                    <a href="iniciar-sessao.php">
+                        Iniciar Sessão
+                    </a>
+
+                
             </div>
         </div>
     </header>
@@ -240,7 +248,7 @@ LIMIT 5
 
             <h2>Filtros</h2>
 
-            <form id="formFiltros" method="GET">
+            <form id="formFiltros" method="GET" action="market.php">
 
                 <div class="campoBusca">
                     <img src="svg/LoopaCinza.svg">
@@ -461,8 +469,6 @@ ORDER BY j.nome
     // Função que salva a posição e envia o formulário
     function enviarFormulario() {
 
-        sessionStorage.setItem("scroll", window.scrollY);
-
         form.submit();
 
     }
@@ -481,7 +487,10 @@ ORDER BY j.nome
 
             e.preventDefault();
 
-            enviarFormulario();
+            const texto = this.value.trim();
+
+            window.location.href =
+                "market.php?pesquisa=" + encodeURIComponent(texto);
 
         }
 
