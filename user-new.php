@@ -13,13 +13,23 @@
 
 <body>
     <?php
+
     require_once "includes/banco.php";
     require_once "includes/login.php";
     require_once "includes/funcoes.php";
-    ?>
+
+
+    if (!admin()) {
+
+    header("Location: index.php");
+
+    exit();
+
+}
+?>
     <div id="corpo">
         <?php
-        if (!isAdmin()) {
+        if (!admin()) {
             echo msg_erro("Você nao é ADM!");
         } else {
             if (!isset($_POST['usuario'])) {
@@ -37,9 +47,9 @@
                     } else {
 
                         echo msg_sucesso("tudo certo para gravar");
-                        $senhaH = gerarHesh($senha1);
+                        $senhaH = gerarHash($senha1);
                         $q = "INSERT INTO usuario (usuario,nome,senha,tipo) VALUES ('$usuario','$nome','$senhaH','$tipo')";
-                        if ($banco->query($q)) {
+                        if (pg_query($conn, $q)) {
                             echo msg_sucesso("Usuario $nome cadastrado com sucesso");
                         } else {
                             echo msg_erro("Não foi possível criar o usuario $nome");

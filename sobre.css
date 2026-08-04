@@ -11,6 +11,9 @@ body.pagina-produto{
     font-family:Inter, Arial, Helvetica, sans-serif;
     color:#111;
 }
+body {
+    overflow-y: hidden;
+}
 
 /* CONTAINER CENTRAL */
 .produto-page{

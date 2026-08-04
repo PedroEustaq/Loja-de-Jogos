@@ -19,98 +19,75 @@ require_once "includes/login.php";
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
+
 <body>
-<header class="cabecalho">
+    <?php require_once "cabecalho.php"; ?>
+    <main class="Market">
 
-    <div class="menu-esquerda">
+        <aside class="filtros">
 
-        <div class="logo">
-            <img src="imgDeco/PERDENDOLogo.png" alt="">
-        </div>
+            <h2>Filtros</h2>
 
-        <a href="index.php"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
-        <a href="#"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
-    </div>
+            <form id="formFiltros" method="GET">
 
-    <div class="Direito">
-        <div class="pesquisa">
-            <img src="svg/LoopaCinza.svg" alt="">
-            <input type="text" placeholder="Pesquisar">
-        </div>
+                <div class="campoBusca">
+                    <img src="svg/LoopaCinza.svg">
 
-        <div class="login">
-            <img src="svg/ContaIcone.svg" alt="User Icon">
-            <a href="#">Crie sua conta</a>
-            <a href="#">Iniciar Sessão</a>
-        </div>
-    </div>
-</header>
-<main class="Market">
+                    <input
+                        id="pesquisa"
+                        type="text"
+                        name="pesquisa"
+                        placeholder="Pesquisar jogo..."
+                        autocomplete="off"
+                        value="<?= htmlspecialchars($_GET['pesquisa'] ?? '') ?>">
+                </div>
 
-    <aside class="filtros">
+                <h3>Categoria</h3>
 
-        <h2>Filtros</h2>
+                <label><input type="checkbox"> Jogos</label>
+                <label><input type="checkbox"> Consoles</label>
+                <label><input type="checkbox"> Gift Cards</label>
 
-        <form id="formFiltros" method="GET">
+                <h3>Plataforma</h3>
 
-            <div class="campoBusca">
-                <img src="svg/LoopaCinza.svg">
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="1"
+                        <?= in_array("1", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    Nintendo
+                </label>
 
-                <input
-                    id="pesquisa"
-                    type="text"
-                    name="pesquisa"
-                    placeholder="Pesquisar jogo..."
-                    autocomplete="off"
-                    value="<?= htmlspecialchars($_GET['pesquisa'] ?? '') ?>">
-            </div>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="2"
+                        <?= in_array("2", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    PC
+                </label>
 
-            <h3>Categoria</h3>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="3"
+                        <?= in_array("3", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    PlayStation
+                </label>
+            </form>
+        </aside>
 
-            <label><input type="checkbox"> Jogos</label>
-            <label><input type="checkbox"> Consoles</label>
-            <label><input type="checkbox"> Gift Cards</label>
+        <section class="catalogo">
 
-            <h3>Plataforma</h3>
+            <?php
 
-            <label>
-                <input
-                    type="checkbox"
-                    name="plataforma[]"
-                    value="1"
-                    <?= in_array("1", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
-                Nintendo
-            </label>
+            $pesquisa = trim($_GET['pesquisa'] ?? '');
 
-            <label>
-                <input
-                    type="checkbox"
-                    name="plataforma[]"
-                    value="2"
-                    <?= in_array("2", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
-                PC
-            </label>
+            $plataformas = $_GET['plataforma'] ?? [];
 
-            <label>
-                <input
-                    type="checkbox"
-                    name="plataforma[]"
-                    value="3"
-                    <?= in_array("3", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
-                PlayStation
-            </label>
-        </form>
-    </aside>
-
-    <section class="catalogo">
-
-        <?php
-
-        $pesquisa = trim($_GET['pesquisa'] ?? '');
-
-        $plataformas = $_GET['plataforma'] ?? [];
-
-        $sql = "
+            $sql = "
 SELECT
     j.cod,
     j.nome,
@@ -124,128 +101,128 @@ JOIN produtoras p ON p.cod = j.produtora
 WHERE 1=1
 ";
 
-        if ($pesquisa != "") {
+            if ($pesquisa != "") {
 
-            $pesquisa = pg_escape_string($conn, $pesquisa);
+                $pesquisa = pg_escape_string($conn, $pesquisa);
 
-            $sql .= "
+                $sql .= "
         AND j.nome ILIKE '%$pesquisa%'
     ";
-        }
+            }
 
-        if (!empty($plataformas)) {
+            if (!empty($plataformas)) {
 
-            $lista = [];
+                $lista = [];
 
-            foreach ($plataformas as $p) {
+                foreach ($plataformas as $p) {
 
-                $lista[] = (int)$p;
+                    $lista[] = (int)$p;
+                }
+
+                $sql .= "
+        AND j.plataforma IN(" . implode(",", $lista) . ")
+    ";
             }
 
             $sql .= "
-        AND j.plataforma IN(" . implode(",", $lista) . ")
-    ";
-        }
-
-        $sql .= "
 ORDER BY j.nome
 ";
 
-        $busca = pg_query($conn, $sql);
+            $busca = pg_query($conn, $sql);
 
-        // Contador dos cards exibidos
-        $contador = 0;
+            // Contador dos cards exibidos
+            $contador = 0;
 
-        function localizarImagem($pasta, $nomeArquivo)
-        {
-            $extensoes = [
-                "png",
-                "jpg",
-                "jpeg",
-                "webp",
-                "avif",
-                "gif"
-            ];
+            function localizarImagem($pasta, $nomeArquivo)
+            {
+                $extensoes = [
+                    "png",
+                    "jpg",
+                    "jpeg",
+                    "webp",
+                    "avif",
+                    "gif"
+                ];
 
-            foreach ($extensoes as $ext) {
+                foreach ($extensoes as $ext) {
 
-                $arquivo = "$pasta/$nomeArquivo.$ext";
+                    $arquivo = "$pasta/$nomeArquivo.$ext";
 
-                if (file_exists($arquivo)) {
-                    return $arquivo;
+                    if (file_exists($arquivo)) {
+                        return $arquivo;
+                    }
                 }
+
+                return null;
             }
 
-            return null;
-        }
+            while ($jogo = pg_fetch_assoc($busca)) {
 
-        while ($jogo = pg_fetch_assoc($busca)) {
+                // Wide, Normal, Normal, Wide, Normal, Normal...
+                $wide = ($contador % 5 == 0);
 
-            // Wide, Normal, Normal, Wide, Normal, Normal...
-            $wide = ($contador % 5 == 0);
+                $pasta = "imgJogos/" . $jogo['nome'];
 
-            $pasta = "imgJogos/" . $jogo['nome'];
+                $imagem = $wide
+                    ? localizarImagem($pasta, "banner1")
+                    : localizarImagem($pasta, "capa");
 
-            $imagem = $wide
-                ? localizarImagem($pasta, "banner1")
-                : localizarImagem($pasta, "capa");
+                // Se não existir nenhuma imagem, não mostra este jogo
+                if ($imagem === null) {
+                    continue;
+                }
 
-            // Se não existir nenhuma imagem, não mostra este jogo
-            if ($imagem === null) {
-                continue;
+            ?>
+
+                <a href="detalhes.php?id=<?= $jogo['cod'] ?>" class="card-link">
+
+                    <article class="card <?= $wide ? 'card--wide' : '' ?>">
+
+                        <img
+                            src="<?= $imagem ?>"
+                            alt="<?= htmlspecialchars($jogo['nome']) ?>"
+                            loading="lazy">
+
+                        <div class="card-info">
+
+                            <div class="card-topo">
+                                <h3><?= htmlspecialchars($jogo['nome']) ?></h3>
+                                <span><img src="./svg/starYellow.svg" alt=""> <?= number_format($jogo['nota'], 1) ?></span>
+                            </div>
+                            <div class="DataProd">
+                                <p>
+                                    <?= htmlspecialchars($jogo['produtora']) ?>
+
+                                </p>
+                                <p>
+                                    <?= htmlspecialchars($jogo['genero']) ?>
+                                </p>
+                            </div>
+                        </div>
+
+                    </article>
+
+                </a>
+
+            <?php
+
+                // alterna entre banner1 e capa
+                // alterna entre banner1 e capa
+                $contador++;
             }
 
-        ?>
+            ?>
 
-            <a href="detalhes.php?id=<?= $jogo['cod'] ?>" class="card-link">
+        </section>
 
-                <article class="card <?= $wide ? 'card--wide' : '' ?>">
+    </main>
 
-                    <img
-                        src="<?= $imagem ?>"
-                        alt="<?= htmlspecialchars($jogo['nome']) ?>"
-                        loading="lazy">
+    <?php
+    require_once "rodape.php";
+    ?>
 
-                    <div class="card-info">
-
-                        <div class="card-topo">
-                            <h3><?= htmlspecialchars($jogo['nome']) ?></h3>
-                            <span><img src="./svg/starYellow.svg" alt=""> <?= number_format($jogo['nota'], 1) ?></span>
-                        </div>
-                        <div class="DataProd">
-                            <p>
-                                <?= htmlspecialchars($jogo['produtora']) ?>
-
-                            </p>
-                            <p>
-                                <?= htmlspecialchars($jogo['genero']) ?>
-                            </p>
-                        </div>
-                    </div>
-
-                </article>
-
-            </a>
-
-        <?php
-
-            // alterna entre banner1 e capa
-            // alterna entre banner1 e capa
-            $contador++;
-        }
-
-        ?>
-
-    </section>
-
-</main>
-
-<?php
-require_once "rodape.php";
-?>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
-</html>
 
+</html>

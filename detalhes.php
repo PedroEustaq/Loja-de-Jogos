@@ -1,7 +1,7 @@
 <?php
 
 require_once "includes/banco.php";
-
+require_once "includes/login.php";
 $id = $_GET['id'] ?? null;
 
 
@@ -9,6 +9,34 @@ if (!$id) {
     die("Jogo não encontrado");
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && editor()) {
+
+    $nome = $_POST["nome"];
+    $preco = $_POST["preco"];
+    $descricao = $_POST["descricao"];
+
+    $sql = "
+        UPDATE jogos
+        SET
+            nome = $1,
+            preco = $2,
+            descricao = $3
+        WHERE cod = $4
+    ";
+
+    $resultado = pg_query_params(
+        $conn,
+        $sql,
+        [$nome, $preco, $descricao, $id]
+    );
+
+    if (!$resultado) {
+        die(pg_last_error($conn));
+    }
+
+    header("Location: detalhes.php?id=$id");
+    exit();
+}
 
 
 $sql = "SELECT * FROM jogos WHERE cod = $1";
@@ -74,6 +102,9 @@ if (!$resultagenero) {
 $tabela_genero = pg_fetch_assoc($resultagenero);
 
 $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
+
+
+$editar = isset($_GET["editar"]) && editor();
 ?>
 
 <!DOCTYPE html>
@@ -98,76 +129,52 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
 
 
 
-    <header class="cabecalho">
-
-        <div class="menu-esquerda">
-
-            <div class="logo">
-                <img src="imgDeco/PERDENDOLogo.png" alt="">
-            </div>
-
-            <a href="index.php"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
-            <a href="market.php"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
-        </div>
-
-        <div class="Direito">
-            <div class="pesquisa">
-                <img src="svg/LoopaCinza.svg" alt="">
-                <input type="text" placeholder="Pesquisar">
-            </div>
-
-            <div class="login">
-                <img src="svg/ContaIcone.svg" alt="User Icon">
-                <a href="#">Crie sua conta</a>
-                <a href="#">Iniciar Sessão</a>
-            </div>
-        </div>
-    </header>
+    <?php require_once "cabecalho.php"; ?>
     <main class="produto-page">
+        <form method="post">
+            <section class="produto-card">
 
-        <section class="produto-card">
+                <div class="produto-esquerda">
 
-            <div class="produto-esquerda">
+                    <nav class="breadcrumb">
 
-                <nav class="breadcrumb">
+                        <a href="index.php">Central</a>
 
-    <a href="index.php">Central</a>
+                        <span class="material-icons">chevron_right</span>
 
-    <span class="material-icons">chevron_right</span>
+                        <a href="market.php">Catálogo</a>
 
-    <a href="market.php">Catálogo</a>
+                        <span class="material-icons">chevron_right</span>
 
-    <span class="material-icons">chevron_right</span>
+                        <span class="pagina-atual"><?= htmlspecialchars($nome) ?></span>
 
-    <span class="pagina-atual"><?= htmlspecialchars($nome) ?></span>
+                    </nav>
 
-</nav>
+                    <div class="produto-imagem-principal">
+                        <img
+                            src="imgJogos/<?= $nome ?>/banner1.avif"
+                            alt="<?= $nome ?>"
+                            id="imagemPrincipal">
+                    </div>
 
-                <div class="produto-imagem-principal">
-                    <img
-                        src="imgJogos/<?= $nome ?>/banner1.avif"
-                        alt="<?= $nome ?>"
-                        id="imagemPrincipal">
-                </div>
+                    <div class="produto-bolinhas" aria-hidden="true">
+                        <span class="ativa"></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
 
-                <div class="produto-bolinhas" aria-hidden="true">
-                    <span class="ativa"></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="produto-miniaturas">
-
-
+                    <div class="produto-miniaturas">
 
 
-                    <?php
 
-                    for ($i = 1; $i <= 5; $i++) {
 
-                        echo "
+                        <?php
+
+                        for ($i = 1; $i <= 5; $i++) {
+
+                            echo "
 
     <div class='miniatura " . ($i == 1 ? "ativa" : "") . "'>
 
@@ -176,11 +183,9 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
     </div>
 
     ";
-                    }
+                        }
 
-                    ?>
-
-
+                        ?>
 
 
 
@@ -188,62 +193,117 @@ $nome_genero = $tabela_genero['genero'] ?? "Desconhecida";
 
 
 
+
+
+
+                    </div>
 
                 </div>
 
-            </div>
+                <aside class="produto-direita">
 
-            <aside class="produto-direita">
 
-               
+                    <?php if (editor()) { ?>
 
-                <h1><?= $nome ?></h1>
+                        <div class="acoes-admin">
 
-                <div class="linha-preco">
-                    <h2 class="produto-preco">
-                        R$<?= number_format($preco, 2, ",", ".") ?>
-                    </h2>
+                            <a href="?id=<?= $id ?>&editar=1">
 
-                    <div class="nota-produto">
-                        <img src="./svg/starYellow.svg" alt="">
-                        <span>9.0</span>
+                                <span class="material-icons">edit</span>
+
+                            </a>
+
+
+                            <?php if ($editar) { ?>
+
+                                <button type="submit">
+
+                                    Salvar Alterações
+
+                                </button>
+
+                            <?php } ?>
+                        </div>
+
+                    <?php } ?>
+                    <?php if ($editar) { ?>
+
+                        <input
+                            type="text"
+                            name="nome"
+                            value="<?= htmlspecialchars($nome) ?>">
+
+                    <?php } else { ?>
+
+                        <h1><?= htmlspecialchars($nome) ?></h1>
+
+                    <?php } ?>
+
+                    <div class="linha-preco">
+                        <?php if ($editar) { ?>
+
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="preco"
+                                value="<?= $preco ?>">
+
+                        <?php } else { ?>
+
+                            <h2 class="produto-preco">
+                                R$<?= number_format($preco, 2, ",", ".") ?>
+                            </h2>
+
+                        <?php } ?>
+
+                        <div class="nota-produto">
+                            <img src="./svg/starYellow.svg" alt="">
+                            <span>9.0</span>
+                        </div>
                     </div>
-                </div>
 
-                <p class="produto-descricao">
+                    <?php if ($editar) { ?>
 
-                    <?= $descricao ?>
+                        <textarea
+                            name="descricao"
+                            rows="8"><?= htmlspecialchars($descricao) ?></textarea>
 
-                </p>
+                    <?php } else { ?>
 
-                <div class="produto-acoes">
-                    <a href="#" class="btn-principal">Botar no carrinho</a>
-                    <a href="#" class="btn-secundario">Embrulhar para presente</a>
-                </div>
+                        <p class="produto-descricao">
+                            <?= htmlspecialchars($descricao) ?>
+                        </p>
 
-                <div class="produto-dados">
-                    <div>
-                        <span>Gênero</span>
-                        <strong><?= $nome_genero ?></strong>
+                    <?php } ?>
+
+                    <div class="produto-acoes">
+                        <a href="#" class="btn-principal">Botar no carrinho</a>
+                        <a href="#" class="btn-secundario">Embrulhar para presente</a>
                     </div>
 
-                    <div>
-                        <span>Plataforma</span>
-                        <strong><?= $nome_plataforma ?></strong>
+                    <div class="produto-dados">
+                        <div>
+                            <span>Gênero</span>
+                            <strong><?= $nome_genero ?></strong>
+                        </div>
+
+                        <div>
+                            <span>Plataforma</span>
+                            <strong><?= $nome_plataforma ?></strong>
+                        </div>
+
+                        <div>
+                            <span>Fornecedor</span>
+                            <strong><?= $nome_produtora ?></strong>
+                        </div>
+
+
                     </div>
 
-                    <div>
-                        <span>Fornecedor</span>
-                        <strong><?= $nome_produtora ?></strong>
-                    </div>
+                </aside>
 
-                   
-                </div>
-
-            </aside>
-
-        </section>
-
+            </section>
+        </form>
     </main>
 
     <script>

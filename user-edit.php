@@ -13,7 +13,6 @@
 <body>
 <?php 
     require_once "includes/banco.php";
-    require_once "topo.php";
     require_once "includes/login.php";
     require_once "includes/funcoes.php";
     ?>
@@ -26,7 +25,7 @@
         $s1 = $_POST['senha1'] ?? null;
         $s2 = $_POST['senha2'] ?? null;
 
-        if(!isLogado()) {
+      if (!logado()) {
             echo msg_erro("Eita! essa area é restrita");
         } else {
             if (!isset($_POST['usuario'])) {
@@ -34,12 +33,25 @@
             } else {
                 if ($_POST['senha1'] == $_POST['senha2']) {
                     echo msg_aviso("Usuario $n cadastrado com sucesso! Por segurança efetue o login novamente");
-                    $GH = gerarHesh($s1);
-                    $q = "UPDATE usuario SET usuario = '$u',
-                        nome = '$n',
-                        senha = '$GH'
-                        WHERE usuario = '$u'";
-                    $busca = $banco->query($q);
+                    $GH = gerarHash($s1);
+                   $q = "UPDATE usuario SET 
+    usuario = $1,
+    nome = $2,
+    senha = $3
+    WHERE usuario = $4";
+
+$busca = pg_query_params(
+    $conn,
+    $q,
+    [
+        $u,
+        $n,
+        $GH,
+        $_SESSION["user"]
+    ]
+);
+               
+                    $_SESSION["user"] = $u;
                     logout();
                 } else {
                     echo msg_erro("As senhas não coincidem");

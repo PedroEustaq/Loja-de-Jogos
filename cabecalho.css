@@ -226,3 +226,11 @@ header a:hover {
     background: none;
     color: #e60012;
 }
+.usuario-logado > strong {
+    color: #111;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+.usuario-logado > small {
+    color: #666;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}

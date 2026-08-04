@@ -46,12 +46,14 @@
             $busca = pg_query($conn, $q);
             if ($busca && pg_num_rows($busca) > 0) { // Se encontrou o usuário
                 $reg = pg_fetch_object($busca);
-                if (testarHesh($u,$reg->senha)) { // Se a senha estiver correta
+                if (testarHash($s, $reg->senha)) { // Se a senha estiver correta
                     echo msg_sucesso("Deu certin");
             
                     $_SESSION['user'] = $reg->usuario;
                     $_SESSION['nome'] = $reg->nome;
                     $_SESSION['tipo'] = $reg->tipo;
+                    header("Location: index.php");
+exit;
                 } else {
                     echo msg_erro("Opa... deu errado"); // Senha incorreta
                 }

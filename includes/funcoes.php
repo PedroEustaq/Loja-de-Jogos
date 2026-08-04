@@ -13,4 +13,14 @@ function msg_erro($m) {
     return $resp;
 }
 
+
+
+function testarHash($senha, $hash) {
+    return password_verify($senha, $hash);
+}
+
+function gerarHash($senha)
+{
+    return password_hash($senha, PASSWORD_DEFAULT);
+}
 ?>

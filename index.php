@@ -24,37 +24,7 @@ require_once "includes/login.php";
 <body>
 
 
-    <header class="cabecalho">
-
-        <div class="menu-esquerda">
-
-            <div class="logo">
-                <img src="imgDeco/PERDENDOLogo.png" alt="">
-            </div>
-
-            <a href="index.php"><img src="svg/HomeVermelho.svg" alt=""> Central</a>
-            <a href="market.php"><img src="svg/BagVermelha.svg" alt=""> Catálogo</a>
-        </div>
-
-        <div class="Direito">
-            <div class="pesquisa">
-                <img src="svg/LoopaCinza.svg" alt="">
-                <input type="text" placeholder="Pesquisar">
-            </div>
-
-            <div class="login">
-                <img src="svg/ContaIcone.svg" alt="User Icon">
-                <a href="#">Crie sua conta</a>
-                
-
-                    <a href="iniciar-sessao.php">
-                        Iniciar Sessão
-                    </a>
-
-                
-            </div>
-        </div>
-    </header>
+    <?php require_once "cabecalho.php"; ?>
 
 
     <?php

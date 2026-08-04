@@ -1,9 +1,18 @@
 <?php 
+require_once "includes/banco.php";
+$q = "
+SELECT usuario, nome, tipo
+FROM usuario
+WHERE usuario = $1
+";
 
-$q = "SELECT usuario, nome, senha, tipo FROM usuario WHERE usuario = '". $_SESSION['user']. "'";
-$busca = $banco->query($q);
-$reg = $busca->fetch_object();
+$busca = pg_query_params(
+    $conn,
+    $q,
+    [$_SESSION["user"]]
+);
 
+$reg = pg_fetch_object($busca);
 ?>
 
 <h1>Alterar Dados</h1>
