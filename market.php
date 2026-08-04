@@ -1,6 +1,18 @@
 <?php
 require_once "includes/banco.php";
 require_once "includes/login.php";
+
+$listaGeneros = pg_query($conn, "
+    SELECT cod, genero
+    FROM generos
+    ORDER BY genero
+");
+
+$listaProdutoras = pg_query($conn, "
+    SELECT cod, produtora
+    FROM produtoras
+    ORDER BY produtora
+");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +39,7 @@ require_once "includes/login.php";
         <aside class="filtros">
 
             <h2>Filtros</h2>
-
             <form id="formFiltros" method="GET">
-
                 <div class="campoBusca">
                     <img src="svg/LoopaCinza.svg">
 
@@ -42,40 +52,60 @@ require_once "includes/login.php";
                         value="<?= htmlspecialchars($_GET['pesquisa'] ?? '') ?>">
                 </div>
 
-                <h3>Categoria</h3>
+                <h3>Nota mínima</h3>
 
-                <label><input type="checkbox"> Jogos</label>
-                <label><input type="checkbox"> Consoles</label>
-                <label><input type="checkbox"> Gift Cards</label>
+                <input
+                    type="range"
+                    id="nota"
+                    name="nota"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value="<?= htmlspecialchars($_GET['nota'] ?? '0') ?>">
 
-                <h3>Plataforma</h3>
+                <p class="valorNota">
+                    ⭐ <span id="notaValor"><?= htmlspecialchars($_GET['nota'] ?? '0') ?></span>
+                </p>
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="plataforma[]"
-                        value="1"
-                        <?= in_array("1", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
-                    Nintendo
-                </label>
+                <h3>Produtora</h3>
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="plataforma[]"
-                        value="2"
-                        <?= in_array("2", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
-                    PC
-                </label>
+                <select name="produtora">
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="plataforma[]"
-                        value="3"
-                        <?= in_array("3", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
-                    PlayStation
-                </label>
+                    <option value="">Todas</option>
+
+                    <?php while ($p = pg_fetch_assoc($listaProdutoras)): ?>
+
+                        <option
+                            value="<?= $p['cod'] ?>"
+                            <?= ($_GET['produtora'] ?? '') == $p['cod'] ? 'selected' : '' ?>>
+
+                            <?= htmlspecialchars($p['produtora']) ?>
+
+                        </option>
+
+                    <?php endwhile; ?>
+
+                </select>
+
+                <h3>Gênero</h3>
+
+                <select name="genero">
+
+                    <option value="">Todos</option>
+
+                    <?php while ($g = pg_fetch_assoc($listaGeneros)): ?>
+
+                        <option
+                            value="<?= $g['cod'] ?>"
+                            <?= ($_GET['genero'] ?? '') == $g['cod'] ? 'selected' : '' ?>>
+
+                            <?= htmlspecialchars($g['genero']) ?>
+
+                        </option>
+
+                    <?php endwhile; ?>
+
+                </select>
             </form>
         </aside>
 
@@ -84,8 +114,11 @@ require_once "includes/login.php";
             <?php
 
             $pesquisa = trim($_GET['pesquisa'] ?? '');
+            $nota = $_GET['nota'] ?? '';
+            $produtora = $_GET['produtora'] ?? '';
+            $genero = $_GET['genero'] ?? '';
 
-            $plataformas = $_GET['plataforma'] ?? [];
+
 
             $sql = "
 SELECT
@@ -110,20 +143,33 @@ WHERE 1=1
     ";
             }
 
-            if (!empty($plataformas)) {
 
-                $lista = [];
+            if ($nota != "") {
 
-                foreach ($plataformas as $p) {
-
-                    $lista[] = (int)$p;
-                }
+                $nota = (float)$nota;
 
                 $sql .= "
-        AND j.plataforma IN(" . implode(",", $lista) . ")
+        AND j.nota >= $nota
     ";
             }
 
+            if ($produtora != "") {
+
+                $produtora = (int)$produtora;
+
+                $sql .= "
+        AND j.produtora = $produtora
+    ";
+            }
+
+            if ($genero != "") {
+
+                $genero = (int)$genero;
+
+                $sql .= "
+        AND j.genero = $genero
+    ";
+            }
             $sql .= "
 ORDER BY j.nome
 ";
@@ -222,7 +268,28 @@ ORDER BY j.nome
     ?>
 
     <script src="script.js"></script>
+    <script>
+        const form = document.getElementById("formFiltros");
 
+       
+
+        form.querySelectorAll("select").forEach(select => {
+            select.addEventListener("change", () => {
+                form.submit();
+            });
+        });
+
+        const slider = document.getElementById("nota");
+        const notaValor = document.getElementById("notaValor");
+
+        slider.addEventListener("input", () => {
+            notaValor.textContent = slider.value;
+        });
+
+        slider.addEventListener("change", () => {
+            form.submit();
+        });
+    </script>
 </body>
 
 </html>

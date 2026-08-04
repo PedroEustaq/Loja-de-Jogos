@@ -2,6 +2,8 @@
    MARKET
 ========================= */
 
+
+
 .Market{
     width:min(92%,1400px);
     margin:70px auto;
@@ -9,6 +11,7 @@
     grid-template-columns:280px 1fr;
     gap:32px;
     align-items:start;
+    
 }
 
 /* =========================
@@ -238,4 +241,74 @@ height: 100%;
 
 .Market .card-link:has(.card--wide){
     grid-column:span 2;
+}
+
+.filtros input[type="range"]{
+    width:100%;
+    cursor:pointer;
+}
+
+.valorNota{
+    margin-top:8px;
+    color:#fff;
+    font-size:14px;
+    text-align:center;
+}
+
+.filtros.--promocional {
+    overflow: hidden;
+
+    background-color: #e60012;
+    color: white;
+    height: 500px;
+
+    border-radius: 12px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    background-image: url("./imgDeco/captoad2.png");
+    background-size: 280px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.filtros.--promocional:hover {
+    cursor: pointer;
+    
+}
+
+.filtros.--promocional::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #fff,
+        transparent,
+        #fff,
+        transparent
+    );
+    background-size: 300% 100%;
+
+    animation: borderMove 8s linear infinite;
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+
+    pointer-events: none;
+}
+
+@keyframes borderMove {
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: 300% 0%;
+    }
 }
