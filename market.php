@@ -1,6 +1,5 @@
 <?php
-require_once "includes/banco.php";
-require_once "includes/login.php";
+
 
 $listaGeneros = pg_query($conn, "
     SELECT cod, genero

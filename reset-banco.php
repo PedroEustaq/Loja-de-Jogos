@@ -1,6 +1,5 @@
 <?php
 
-require_once "includes/banco.php";
 
 $arquivo = "ultimo_reset.txt";
 
