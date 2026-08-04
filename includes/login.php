@@ -3,6 +3,11 @@
 
 require_once "banco.php";
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . "/banco.php";
 
 function autenticar($usuario, $senha)
 {
@@ -34,7 +39,7 @@ function autenticar($usuario, $senha)
     return true;
 }
 
-
+session_start();
 
 function logado()
 {

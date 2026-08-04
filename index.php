@@ -1,6 +1,6 @@
-<?php require_once "includes/banco.php";
-require_once "includes/login.php";
+<?php
 
+require_once __DIR__ . "/includes/login.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
