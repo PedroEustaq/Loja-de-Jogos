@@ -1,7 +1,5 @@
-<?php
-
-require_once __DIR__ . "/includes/login.php";
-
+<?php require_once "includes/banco.php";
+require_once "includes/login.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -216,20 +214,59 @@ LIMIT 5
     </section>
     <main class="Market">
 
-        <aside class="filtros --promocional" onclick="window.location.href='market.php'">
+        <aside class="filtros">
 
-            <h1>Confira a loja completa!</h1>
+            <h2>Filtros</h2>
 
-            <div class="promo-icons">
-                <img src="./svg/PlayBtn.svg" alt="">
-                <img src="./svg/PlayBtn.svg" alt="">
-                <img src="./svg/PlayBtn.svg" alt="">
-                <img src="./svg/PlayBtn.svg" alt="">
-                <img src="./svg/PlayBtn.svg" alt="">
-            </div>
+            <form id="formFiltros" method="GET" action="market.php">
 
+                <div class="campoBusca">
+                    <img src="svg/LoopaCinza.svg">
 
+                    <input
+                        id="pesquisa"
+                        type="text"
+                        name="pesquisa"
+                        placeholder="Pesquisar jogo..."
+                        autocomplete="off"
+                        value="<?= htmlspecialchars($_GET['pesquisa'] ?? '') ?>">
+                </div>
 
+                <h3>Categoria</h3>
+
+                <label><input type="checkbox"> Jogos</label>
+                <label><input type="checkbox"> Consoles</label>
+                <label><input type="checkbox"> Gift Cards</label>
+
+                <h3>Plataforma</h3>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="1"
+                        <?= in_array("1", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    Nintendo
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="2"
+                        <?= in_array("2", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    PC
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="plataforma[]"
+                        value="3"
+                        <?= in_array("3", $_GET["plataforma"] ?? []) ? "checked" : "" ?>>
+                    PlayStation
+                </label>
+            </form>
         </aside>
 
         <section class="catalogo">

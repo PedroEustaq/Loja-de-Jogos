@@ -52,7 +52,7 @@
                     $_SESSION['user'] = $reg->usuario;
                     $_SESSION['nome'] = $reg->nome;
                     $_SESSION['tipo'] = $reg->tipo;
-                    
+                    header("Location: index.php");
 exit;
                 } else {
                     echo msg_erro("Opa... deu errado"); // Senha incorreta
