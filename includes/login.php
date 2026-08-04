@@ -38,7 +38,7 @@ function autenticar($usuario, $senha)
 
 function logado()
 {
-    return isset($_SESSION["user"]);
+    return isset($_SESSION["usuario"]);
 }
 
 function admin()
