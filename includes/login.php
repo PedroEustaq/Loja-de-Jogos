@@ -3,7 +3,7 @@
 
 require_once "banco.php";
 
-
+session_start();
 function autenticar($usuario, $senha)
 {
     global $conn;
@@ -34,7 +34,7 @@ function autenticar($usuario, $senha)
     return true;
 }
 
-session_start();
+
 
 function logado()
 {
