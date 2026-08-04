@@ -240,6 +240,6 @@ file_put_contents(
 );
 
 
-echo "Banco resetado com sucesso!";
+
 
 ?>
