@@ -1,13 +1,10 @@
 <?php
 
-
-require_once "banco.php";
+require_once __DIR__ . "/banco.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once __DIR__ . "/banco.php";
 
 function autenticar($usuario, $senha)
 {
@@ -39,8 +36,6 @@ function autenticar($usuario, $senha)
     return true;
 }
 
-session_start();
-
 function logado()
 {
     return isset($_SESSION["user"]);
@@ -48,7 +43,13 @@ function logado()
 
 function admin()
 {
-    return logado() && $_SESSION["tipo"] == "admin";
+    return logado() && $_SESSION["tipo"] === "admin";
+}
+
+function editor()
+{
+    return logado() &&
+        ($_SESSION["tipo"] === "admin" || $_SESSION["tipo"] === "editor");
 }
 
 function logout()
@@ -56,7 +57,6 @@ function logout()
     $_SESSION = [];
 
     if (ini_get("session.use_cookies")) {
-
         $params = session_get_cookie_params();
 
         setcookie(
@@ -71,10 +71,4 @@ function logout()
     }
 
     session_destroy();
-}
-
-function editor()
-{
-    return logado() &&
-        ($_SESSION["tipo"] == "admin" || $_SESSION["tipo"] == "editor");
 }
