@@ -2,7 +2,7 @@
 
 
 require_once "includes/funcoes.php";
-
+require_once "reset-banco.php";
 ?>
 
 <header class="cabecalho">

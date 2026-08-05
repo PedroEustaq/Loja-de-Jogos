@@ -46,8 +46,7 @@ header {
 
     padding: 0 28px;
 
-    font-weight: 600;
-
+    font-weight: 400;
     box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
 
     position: sticky;
@@ -67,7 +66,7 @@ header a {
     justify-content: center;
 
     gap: 8px;
-
+font-weight: 600;
     font-size: 14px;
 
     padding: 10px 14px;

@@ -11,23 +11,25 @@ if (!$id) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && editor()) {
 
-    $nome = $_POST["nome"];
-    $preco = $_POST["preco"];
-    $descricao = $_POST["descricao"];
+ $nome = $_POST["nome"];
+$preco = $_POST["preco"];
+$descricao = $_POST["descricao"];
+$nota = $_POST["nota"];
 
     $sql = "
-        UPDATE jogos
-        SET
-            nome = $1,
-            preco = $2,
-            descricao = $3
-        WHERE cod = $4
-    ";
+    UPDATE jogos
+    SET
+        nome = $1,
+        preco = $2,
+        descricao = $3,
+        nota = $4
+    WHERE cod = $5
+";
 
     $resultado = pg_query_params(
         $conn,
         $sql,
-        [$nome, $preco, $descricao, $id]
+       [$nome, $preco, $descricao, $nota, $id]
     );
 
     if (!$resultado) {
@@ -209,7 +211,7 @@ $editar = isset($_GET["editar"]) && editor();
 
                             <a href="?id=<?= $id ?>&editar=1">
 
-                                <span class="material-icons">edit</span>
+                               <span class="material-icons edit-icon">edit</span>
 
                             </a>
 
@@ -257,9 +259,26 @@ $editar = isset($_GET["editar"]) && editor();
                         <?php } ?>
 
                         <div class="nota-produto">
-                            <img src="./svg/starYellow.svg" alt="">
-                            <span>9.0</span>
-                        </div>
+
+    <img src="./svg/starYellow.svg" alt="">
+
+    <?php if ($editar) { ?>
+
+        <input 
+            type="number"
+            name="nota"
+            min="0"
+            max="10"
+            step="0.1"
+            value="<?= $nota ?>">
+
+    <?php } else { ?>
+
+        <span><?= number_format($nota, 1) ?></span>
+
+    <?php } ?>
+
+</div>
                     </div>
 
                     <?php if ($editar) { ?>

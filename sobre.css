@@ -12,7 +12,6 @@ body.pagina-produto{
     color:#111;
 }
 body {
-    overflow-y: hidden;
 }
 
 /* CONTAINER CENTRAL */
@@ -365,4 +364,188 @@ body {
 .breadcrumb .pagina-atual{
     color:#111;
     font-weight:600;
+}
+
+/* =========================
+   MODO DE EDIÇÃO ADMIN
+========================= */
+
+.acoes-admin{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.acoes-admin button {
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+    justify-content: center;
+}
+/* botão do lápis */
+
+.acoes-admin a{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#f3f4f6;
+    color:#111;
+    text-decoration:none;
+    transition:.25s ease;
+    border:1px solid #ddd;
+}
+
+
+.acoes-admin a:hover{
+    background:#111;
+    transform:translateY(-2px);
+}
+
+
+.acoes-admin a .material-icons{
+    color:#111;
+    font-size:22px;
+}
+
+
+.acoes-admin a:hover .material-icons{
+    color:white;
+}
+
+
+
+/* botão salvar */
+
+.acoes-admin button{
+    height:42px;
+    padding:0 20px;
+    border:none;
+    border-radius:999px;
+
+    background:#111;
+    color:white;
+
+    font-weight:800;
+    cursor:pointer;
+
+    transition:.25s ease;
+}
+
+
+.acoes-admin button:hover{
+    background:#e60012;
+    transform:translateY(-2px);
+}
+
+
+/* Inputs de edição */
+
+.produto-direita input[type="text"],
+.produto-direita input[type="number"]{
+
+    width:100%;
+    margin-top:16px;
+
+    padding:24px 18px;
+
+    border-radius:16px;
+    border:1px solid #d9dfe5;
+
+    background:#f8fafc;
+
+    font-family:Inter, Arial;
+    font-size:32px;
+    font-weight:900;
+
+    color:#111;
+
+    outline:none;
+
+    transition:.2s ease;
+}
+
+
+.produto-direita input[type="number"]{
+    font-size:24px;
+    font-weight:800;
+}
+
+
+.produto-direita input:focus,
+.produto-direita textarea:focus{
+
+    border-color:#111;
+
+    background:white;
+
+    box-shadow:
+    0 0 0 4px rgba(0,0,0,.08);
+}
+
+
+
+/* descrição */
+
+.produto-direita textarea{
+
+    width:100%;
+
+    margin-top:22px;
+
+    padding:18px;
+
+    resize:vertical;
+
+    min-height:170px;
+
+    border-radius:20px;
+
+    border:1px solid #d9dfe5;
+
+    background:#f8fafc;
+
+    font-family:Inter,Arial;
+
+    font-size:16px;
+
+    line-height:1.6;
+
+    color:#111;
+
+    outline:none;
+
+    transition:.2s ease;
+}
+
+
+/* animação modo edição */
+
+.produto-direita input,
+.produto-direita textarea{
+
+    animation:aparecerEdicao .25s ease;
+
+}
+
+
+@keyframes aparecerEdicao{
+
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.edit-icon{
+    color:#111 !important;
 }

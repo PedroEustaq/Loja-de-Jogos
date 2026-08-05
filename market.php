@@ -64,7 +64,7 @@ $listaProdutoras = pg_query($conn, "
                     value="<?= htmlspecialchars($_GET['nota'] ?? '0') ?>">
 
                 <p class="valorNota">
-                    ⭐ <span id="notaValor"><?= htmlspecialchars($_GET['nota'] ?? '0') ?></span>
+                    <img src="svg/starYellow.svg" alt=""> <span id="notaValor"><?= htmlspecialchars($_GET['nota'] ?? '0') ?></span>
                 </p>
 
                 <h3>Produtora</h3>

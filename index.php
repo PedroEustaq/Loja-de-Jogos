@@ -189,22 +189,22 @@ LIMIT 5
         <div class="giftWall">
 
             <img src="imgDeco/giftNintendo.png" alt="">
-            <img src="imgDeco/giftPlaystation.png" alt="">
+            <img src="imgDeco/giftLOL.webp" alt="">
             <img src="imgDeco/giftPlaystore.png" alt="">
+            <img src="imgDeco/giftRoblox.png" alt="">
+            <img src="imgDeco/giftValorant.png" alt="">
+            <img src="imgDeco/giftXbox.png" alt="">
+
+            <img src="imgDeco/giftSTEAM.webp" alt="">
+            <img src="imgDeco/giftPlaystation.png" alt="">
+            <img src="imgDeco/giftVBUCKS.jpg" alt="">
             <img src="imgDeco/giftRoblox.png" alt="">
             <img src="imgDeco/giftValorant.png" alt="">
             <img src="imgDeco/giftXbox.png" alt="">
 
             <img src="imgDeco/giftNintendo.png" alt="">
             <img src="imgDeco/giftPlaystation.png" alt="">
-            <img src="imgDeco/giftPlaystore.png" alt="">
-            <img src="imgDeco/giftRoblox.png" alt="">
-            <img src="imgDeco/giftValorant.png" alt="">
-            <img src="imgDeco/giftXbox.png" alt="">
-
-            <img src="imgDeco/giftNintendo.png" alt="">
-            <img src="imgDeco/giftPlaystation.png" alt="">
-            <img src="imgDeco/giftPlaystore.png" alt="">
+            <img src="imgDeco/giftVBUCKS.jpg" alt="">
             <img src="imgDeco/giftRoblox.png" alt="">
             <img src="imgDeco/giftValorant.png" alt="">
             <img src="imgDeco/giftXbox.png" alt="">

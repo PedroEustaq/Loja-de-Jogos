@@ -10,64 +10,58 @@
     gap:32px;
     align-items:start;
 }
-
 /* =========================
    FILTROS
 ========================= */
 
 .Market .filtros{
     position:sticky;
-    top: 70px;
-    background:#fff;
-    border:1px solid #ececec;
-    border-radius:24px;
-    padding:24px;
+    top:85px;
+
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:28px;
+
+    padding:28px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08),
+        inset 0 1px rgba(255,255,255,.8);
+
+    transition:.3s;
 }
 
 .Market .filtros h2{
-    font-size:28px;
-    font-weight:800;
-    margin-bottom:18px;
+    font-size:30px;
+    font-weight:900;
+    color:#111;
+    margin-bottom:28px;
 }
 
 .Market .filtros h3{
-    margin:24px 0 12px;
-    font-size:15px;
-    color:#666;
-}
-
-.Market .campoBusca{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    height:48px;
-    border-radius:999px;
-    border:1px solid #ddd;
-    padding:0 16px;
-    background:#fafafa;
-}
-
-.Market .campoBusca input{
-    width:100%;
-    border:none;
-    outline:none;
-    background:none;
-}
-
-.Market .campoBusca img{
-    width:18px;
+    margin:28px 0 12px;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#888;
 }
 
 .Market .filtros label{
     display:flex;
     align-items:center;
     gap:10px;
-    margin:12px 0;
-    cursor:pointer;
+
+    padding:10px 12px;
+
+    border-radius:14px;
+
+    transition:.2s;
 }
 
-.Market input[type="checkbox"]{
-    accent-color:#e60012;
+.Market .filtros label:hover{
+    background:#f5f6f8;
 }
 
 /* =========================
@@ -310,4 +304,126 @@ height: 100%;
     to {
         background-position: 300% 0%;
     }
+}
+.Market .campoBusca{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    height:52px;
+
+    background:#f6f7f9;
+
+    border:1px solid transparent;
+
+    border-radius:18px;
+
+    padding:0 18px;
+
+    transition:.25s;
+}
+
+.Market .campoBusca:hover{
+    background:#f0f2f4;
+}
+
+.Market .campoBusca:focus-within{
+
+    background:white;
+
+    border-color:#e60012;
+
+    box-shadow:0 0 0 4px rgba(230,0,18,.10);
+
+}
+
+.Market .campoBusca img{
+    width:18px;
+    opacity:.6;
+}
+
+.Market .campoBusca input{
+
+    width:100%;
+
+    border:none;
+    outline:none;
+
+    background:none;
+
+    font-size:14px;
+    font-weight:500;
+}
+
+.Market .filtros select{
+
+    width:100%;
+    height:50px;
+
+    padding:0 18px;
+
+    border:none;
+    outline:none;
+
+    border-radius:16px;
+
+    background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 16px center,
+    #f6f7f9;
+
+    appearance:none;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.Market .filtros select:hover{
+
+    background-color:#eef1f4;
+
+}
+
+.Market .filtros select:focus{
+
+    background-color:white;
+
+    box-shadow:0 0 0 4px rgba(230,0,18,.10);
+
+}
+
+.Market .filtros input[type="range"]{
+
+    width:100%;
+    margin-top:10px;
+
+    accent-color:#e60012;
+
+    cursor:pointer;
+}
+
+.valorNota{
+
+    margin-top:10px;
+
+    background:#f5f6f8;
+
+    border-radius:999px;
+
+    padding:8px;
+
+    color:#444;
+
+    font-weight:700;
+
+    text-align:center;
+}
+.valorNota > img {
+    width: 16px;
+    height: 16px;
 }
