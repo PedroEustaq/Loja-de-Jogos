@@ -15,6 +15,9 @@ require_once "includes/login.php";
     <link rel="stylesheet" href="destaque.css">
     <link rel="stylesheet" href="giftcards.css">
     <link rel="stylesheet" href="market.css">
+
+    <meta name="description" content="Descubra os melhores jogos para PC, PlayStation, Xbox e Nintendo. Explore lançamentos, promoções, avaliações e encontre seu próximo game favorito.">
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Inter:opsz@14..32&family=Karla&family=Roboto:ital,wght@0,100..900;1,100..900&family=VT323&display=swap');
@@ -148,7 +151,7 @@ LIMIT 5
                                 </h3>
 
                                 <div class="Nota">
-                                    <img src="svg/starYellow.svg">
+                                    <img src="svg/starYellow.svg" alt="Estrela amarela">
                                     <span><?= number_format($jogo['nota'], 1) ?></span>
                                 </div>
 
@@ -335,7 +338,7 @@ ORDER BY j.nome
 
                             <div class="card-topo">
                                 <h3><?= htmlspecialchars($jogo['nome']) ?></h3>
-                                <span><img src="./svg/starYellow.svg" alt=""> <?= number_format($jogo['nota'], 1) ?></span>
+                                <span><img src="./svg/starYellow.svg" alt="Estrela amarela"> <?= number_format($jogo['nota'], 1) ?></span>
                             </div>
                             <div class="DataProd">
                                 <p>

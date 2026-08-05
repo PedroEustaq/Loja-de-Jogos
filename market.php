@@ -27,7 +27,7 @@ $listaProdutoras = pg_query($conn, "
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="market.css">
-
+<meta name="description" content="Descubra os melhores jogos para PC, PlayStation, Xbox e Nintendo. Explore lançamentos, promoções, avaliações e encontre seu próximo game favorito.">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
