@@ -185,7 +185,7 @@ LIMIT 5
             </p>
 
             <div class="giftButtons">
-                <button class="btnPrincipal">Ver Gift Cards</button>
+                <button class="btnPrincipal" onclick="window.alert('Estamos re-abastecendo nosso estoque, volte mais tarde!')">Ver Gift Cards</button>
             </div>
         </div>
 
