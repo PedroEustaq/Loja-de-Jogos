@@ -408,3 +408,6 @@ button{
     font-size:14px;
     margin-top:auto;
 }
+.nav-link {
+    color: #fff;
+}
