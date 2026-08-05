@@ -1,4 +1,3 @@
-<pre>
 <?php 
 
 
@@ -41,4 +40,3 @@ function thumb($arq)
     return $caminho;
 }
 ?>
-</pre>
