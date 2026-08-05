@@ -1,3 +1,11 @@
+<?php 
+
+    require_once "includes/banco.php";
+    require_once "includes/login.php";
+    require_once "includes/funcoes.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,9 +37,7 @@
     <?php
     $u = $_POST['usuario'] ?? null;
     $s = $_POST['senha'] ?? null;
-    require_once "includes/banco.php";
-    require_once "includes/login.php";
-    require_once "includes/funcoes.php";
+    
     ?>
     <div id="corpo">
         <?php
